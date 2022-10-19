@@ -1,0 +1,28 @@
+import RPi.GPIO as GPIO
+from time import sleep
+in1 = 11
+in2 = 13
+Mt = 12				# PWM pin connected to Mt
+GPIO.setwarnings(False)			#disable warnings
+GPIO.setmode(GPIO.BOARD)		#set pin numbering system
+GPIO.setup(Mt,GPIO.OUT)
+GPIO.setup(in1,GPIO.OUT)
+GPIO.setup(in2,GPIO.OUT)
+pi_pwm = GPIO.PWM(Mt,1000)		#create PWM instance with frequency
+pi_pwm.start(0)				#start PWM of required DutyCycle  
+
+GPIO.output(in1,GPIO.HIGH)
+GPIO.output(in2,GPIO.LOW)
+pi_pwm.ChangeDutyCycle(50)
+sleep(3)
+pi_pwm.ChangeDutyCycle(25)
+sleep(3)
+pi_pwm.ChangeDutyCycle(75)
+sleep(3)
+GPIO.cleanup()
+        
+        
+    
+    
+
+

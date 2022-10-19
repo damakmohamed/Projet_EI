@@ -1,0 +1,164 @@
+' ******************************************************************************
+' swxJRNL.swj - journal recorded on 02/10/22 by damak
+' *****************************************************************************
+Dim swApp As Object
+
+Dim Part As Object
+Dim boolstatus As Boolean
+Dim longstatus As Long, longwarnings As Long
+
+Sub main()
+
+Set swApp = Application.SldWorks
+
+
+' New Document
+Dim swSheetWidth As Double
+swSheetWidth = 0
+Dim swSheetHeight As Double
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Dim swPart As PartDoc
+Set swPart = Part
+swApp.ActivateDoc2 "Part1", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part2", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part3", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part4", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part5", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part6", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Assembly.asmdot", 0, swSheetWidth, swSheetHeight)
+Dim swAssembly As AssemblyDoc
+Set swAssembly = Part
+swApp.ActivateDoc2 "Assem1", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part7", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part8", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part9", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part10", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part11", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part12", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part13", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Part.prtdot", 0, swSheetWidth, swSheetHeight)
+Set swPart = Part
+swApp.ActivateDoc2 "Part14", False, longstatus
+Set Part = swApp.ActiveDoc
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Assembly.asmdot", 0, swSheetWidth, swSheetHeight)
+Set swAssembly = Part
+swApp.ActivateDoc2 "Assem2", False, longstatus
+Set Part = swApp.ActiveDoc
+Dim myModelView As Object
+Dim swSnapShot As SnapShot
+
+' New Document
+swSheetWidth = 0
+swSheetHeight = 0
+Set Part = swApp.NewDocument("C:\ProgramData\SolidWorks\SOLIDWORKS 2019\templates\Assembly.asmdot", 0, swSheetWidth, swSheetHeight)
+Set swAssembly = Part
+
+' Zoom To Fit
+Part.ViewZoomtofit2
+Set myModelView = Part.ActiveView
+myModelView.FrameState = swWindowState_e.swWindowMaximized
+boolstatus = Part.Extension.SelectByRay(-0.01634800479166642617, 0.01166185387472751245, 0.02224999999992860467, -0.4000360267793124924, -0.5150380749100240685, -0.7580942940502837235, 0.0004376325510645083972, 2, False, 0, 0)
+Part.ClearSelection2 True
+Set myModelView = Part.ActiveView
+myModelView.FrameState = swWindowState_e.swWindowMaximized
+swApp.ExitApp
+End Sub

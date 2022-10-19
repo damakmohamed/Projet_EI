@@ -1,0 +1,216 @@
+import RPi.GPIO as GPIO
+from time import sleep
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+
+#motor right 
+motA_pin1=11              
+motA_pin2=13        
+motA_EN=12
+
+#motor left 
+motB_pin1=15
+motB_pin2=16
+motB_EN=18
+
+#LED
+led=7
+
+#capteurs
+C1=35
+C2=36
+C3=37
+C4=38
+
+#sorties des capteurs
+RC1=0
+RC2=0
+RC3=0
+RC4=0
+
+#Les signal PWM
+Speed=190
+
+#pos du bande noir
+pos=0
+
+
+GPIO.setwarnings(False)			#disable warnings
+GPIO.setmode(GPIO.BOARD)		#set pin numbering system
+
+#create PWM instance for motA
+GPIO.setup(motA_EN,GPIO.OUT)
+GPIO.setup(motA_pin1,GPIO.OUT)
+GPIO.setup(motA_pin2,GPIO.OUT)
+pi_pwmA = GPIO.PWM(motA_EN,1000)		
+ 
+#create PWM instance for motB
+GPIO.setup(motB_EN,GPIO.OUT)
+GPIO.setup(motB_pin1,GPIO.OUT)
+GPIO.setup(motB_pin2,GPIO.OUT)
+pi_pwmB = GPIO.PWM(motB_EN,1000)
+
+#Led comme sortie		
+GPIO.setup(led,GPIO.OUT)
+
+
+#les fonctions
+def FWD():
+	GPIO.output(motA_pin1,GPIO.HIGH)
+	GPIO.output(motA_pin2,GPIO.LOW)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.HIGH)
+	GPIO.output(motB_pin2,GPIO.LOW)	pi_pwmB.ChangeDutyCycle(75)
+
+def LEFT():
+	GPIO.output(motA_pin1,GPIO.HIGH)
+	GPIO.output(motA_pin2,GPIO.LOW)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.LOW)
+	GPIO.output(motB_pin2,GPIO.HIGH)	pi_pwmB.ChangeDutyCycle(75)
+
+def RIGHT():
+	GPIO.output(motA_pin1,GPIO.LOW)
+	GPIO.output(motA_pin2,GPIO.HIGH)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.HIGH)
+	GPIO.output(motB_pin2,GPIO.LOW)	pi_pwmB.ChangeDutyCycle(75)
+
+def REV():
+	GPIO.output(motA_pin1,GPIO.LOW)
+	GPIO.output(motA_pin2,GPIO.HIGH)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.LOW)
+	GPIO.output(motB_pin2,GPIO.HIGH)	pi_pwmB.ChangeDutyCycle(75)
+
+def UP_LEFT():
+	GPIO.output(motA_pin1,GPIO.HIGH)
+	GPIO.output(motA_pin2,GPIO.LOW)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.LOW)
+	GPIO.output(motB_pin2,GPIO.LOW)	pi_pwmB.ChangeDutyCycle(75)
+
+def UP_RIGHT():
+	GPIO.output(motA_pin1,GPIO.LOW)
+	GPIO.output(motA_pin2,GPIO.LOW)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.HIGH)
+	GPIO.output(motB_pin2,GPIO.LOW)	pi_pwmB.ChangeDutyCycle(75)
+
+def DOWN_RIGHT():
+	GPIO.output(motA_pin1,GPIO.LOW)
+	GPIO.output(motA_pin2,GPIO.LOW)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.LOW)
+	GPIO.output(motB_pin2,GPIO.HIGH)	pi_pwmB.ChangeDutyCycle(75)
+
+def DOWN_LEFT():
+	GPIO.output(motA_pin1,GPIO.LOW)
+	GPIO.output(motA_pin2,GPIO.HIGH)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.LOW)
+	GPIO.output(motB_pin2,GPIO.LOW)	pi_pwmB.ChangeDutyCycle(75)
+
+def STOP():
+	GPIO.output(motA_pin1,GPIO.LOW)
+	GPIO.output(motA_pin2,GPIO.LOW)	pi_pwmA.ChangeDutyCycle(75)
+	#--
+	GPIO.output(motB_pin1,GPIO.LOW)
+	GPIO.output(motB_pin2,GPIO.LOW)	pi_pwmB.ChangeDutyCycle(75)
+
+
+
+
+
+
+
+
+
+
+
+
+
+pi_pwmA.start(0)	#start PWMA of required DutyCycle 
+pi_pwmB.start(0)	#start PWMB of required DutyCycle 
+
+try:
+    while 1:
+	RC1=GPIO.input(C1)
+	RC2=GPIO.input(C2)
+	RC3=GPIO.input(C3)
+	RC4=GPIO.input(C4)
+
+	if RC4==0 and RC3==0 and RC2==0 and RC1==0 : #0
+		if pos==0:
+			STOP()
+			GPIO.output(led,GPIO.HIGH)	
+			sleep(1)
+			GPIO.output(led,GPIO.LOW)	
+			sleep(1)	
+			GPIO.output(led,GPIO.HIGH)	
+			sleep(1)
+			GPIO.output(led,GPIO.LOW)	
+			sleep(1)		
+			REV()
+			sleep(0.5)
+			pos+=1
+		elif pos==1:
+			STOP()
+			sleep(0.5)
+			UP_RIGHT()
+			sleep(0.2)
+			pos+=1
+		else:
+			STOP()
+			GPIO.output(led,GPIO.HIGH)	
+			sleep(1.5)
+			GPIO.output(led,GPIO.LOW)	
+			sleep(1.5)	
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #1
+		LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #2
+		UP_LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #3
+		LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #4
+		RIGHT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #5
+		LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #6
+		LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #7
+		LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #8
+		LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #9
+		FWD()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #A
+		LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #B
+		LEFT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #C
+		RIGHT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #D
+		FWD()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #E
+		RIGHT()
+
+	elif RC4==0 and RC3==0 and RC2==0 and RC1==1 : #F
+		UP_RIGHT()
+		
+except:
+	GPIO.cleanup()
