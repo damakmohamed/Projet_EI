@@ -1,0 +1,358 @@
+------------------------------------------------------------------------------------------journal
+#include "16f877A.h"
+#byte portB=0x06
+#byte trisB=0x86
+#byte portC=0x07
+#byte trisC=0x87
+#use delay(clock=1MHz)
+#bit DATA=portb.0
+#bit clk=portb.1
+#bit STB=portb.2
+char mess[]="ENISo";
+int Journal[32], L=0;
+
+void codage()
+{int i;
+for (i=0;i<5;i++)
+{
+switch(mess[i])
+{
+case 'A' :
+journal[l]=0xFC;
+journal[l+1]=0x12;
+journal[l+2]=0x11;
+journal[l+3]=0x12;
+journal[l+4]=0xFC;
+journal[l+5]=0x00;
+L=L+6;
+case 'B' :
+journal[l]=0xFA;
+journal[l+1]=0x92;
+journal[l+2]=0x2A;
+journal[l+3]=0x12;
+journal[l+4]=0x00;
+L=L+5;
+case 'E' :
+journal[l]=0xFA;
+journal[l+1]=0x92;
+journal[l+2]=0x92;
+journal[l+3]=0x00;
+L=L+4;
+case 'N' :
+journal[l]=0xFC;
+journal[l+1]=0x08;
+journal[l+2]=0x10;
+journal[l+3]=0x20;
+journal[l+4]=0x40;
+journal[l+5]=0xFC;
+journal[l+6]=0x00;
+L=L+7;
+case 'I' :
+journal[l]=0x84;
+journal[l+1]=0x84;
+journal[l+2]=0xFC;
+journal[l+3]=0x84;
+journal[l+4]=0x84;
+journal[l+5]=0x00;
+L=L+6;
+case 'S' :
+journal[l]=0x44;
+journal[l+1]=0x8A;
+journal[l+2]=0x29;
+journal[l+3]=0x31;
+journal[l+4]=0x00;
+
+L=L+5;
+case 'o' :
+journal[l]=0x60;
+journal[l+1]=0x90;
+journal[l+2]=0x90;
+journal[l+3]=0x60;
+journal[l+4]=0x00;
+
+L=L+5;
+
+
+break;}
+}}
+void affichage ()
+{
+int k,j;
+for(j=0;j<8;j++)
+{
+for(k=0;k<32;k++)
+{ DATA=journal[32-k-1];
+CLK=1;
+CLK=0;
+rotate_right(&journal[32-k-1],1);
+}portc=j;
+STB=1;
+STB=0;
+}}
+
+void main ()
+{
+ trisB=0x00;
+trisc=0x00;
+codage();
+while(1)
+{
+affichage();
+
+
+
+}}
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------lcd
+#INCLUDE <16F877a.h>
+#include <string.h>
+#BYTE portb=0x06
+#byte trisb=0x86
+#BYTE portc=0x07
+#byte trisc=0x87
+#use delay(clock=1Mhz)
+#bit E=portc.0
+#bit RW=portc.1
+#bit RS=portc.2
+char ch[]="**Follow your dreams**";
+int i;
+void envoie_commande(int com)
+{ RS=0;
+RW=0;
+portB=com;
+E=1;
+delay_us(2);
+E=0;}
+void envoie_car(char car)
+{ RS=1;
+RW=0;
+portB=car;
+E=1;
+delay_us(2);
+E=0;}
+void init_LCD()
+{envoie_commande(0x38);
+envoie_commande(0x0C);
+envoie_commande(0x07);
+envoie_commande(0x01);
+delay_ms(2);
+}
+void main()
+{trisB=0x00;
+trisc=0x00;
+init_LCD();
+envoie_commande(0x8f);
+while(1)
+{
+
+for(i=0;i<strlen(ch);i++)
+{envoie_car(ch[i]);
+delay_ms(100);
+}
+}
+}
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------lcd avec clavier 
+#INCLUDE <16F877a.h>
+#include <string.h>
+#BYTE portb=0x06
+#byte trisb=0x86
+#BYTE portc=0x07
+#byte trisc=0x87
+#BYTE portd=0x08
+#byte trisd=0x88
+#use delay(clock=1Mhz)
+#bit E=portc.0
+#bit RW=portc.1
+#bit RS=portc.2
+#bit c1=portD.0
+#bit c2=portD.1
+#bit c3=portD.2
+char ch[]="**Follow your dreams**";
+char touche ;
+void saisie()
+{ touche="";
+portD=0x08;
+if(c1==1){touche="1";}
+if(c2==1){touche="2";}
+if(c3==1){touche="3";}
+portD=0x10;
+if(c1==1){touche="4";}
+if(c2==1){touche="5";}
+if(c3==1){touche="6";}
+portD=0x20;
+if(c1==1){touche="7";}
+if(c2==1){touche="8";}
+if(c3==1){touche="9";}
+portD=0x40;
+if(c1==1){touche="*";}
+if(c2==1){touche="0";}
+if(c3==1){touche="#";}
+}
+void envoie_commande(int com)
+{ RS=0;
+RW=0;
+portB=com;
+E=1;
+delay_us(2);
+E=0;}
+void envoie_car(char car)
+{ RS=1;
+RW=0;
+portB=car;
+E=1;
+delay_us(2);
+E=0;}
+void init_LCD()
+{envoie_commande(0x38);
+envoie_commande(0x0C);
+envoie_commande(0x07);
+envoie_commande(0x01);
+delay_ms(2);
+}
+void main()
+{trisB=0x00;
+trisc=0x00;
+trisd=0x07;
+init_LCD();
+envoie_commande(0x86);
+while(1)
+{saisie();
+envoie_car(touche);
+
+
+}
+}
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------communicatin rs232 et signal pwm 
+#include "16f877a.h"
+#byte portc=0x07
+#byte trisc=0x87
+#byte TXSTA=0x98
+#byte RCSTA=0x18
+#byte SPBRG=0x99
+#byte TXREG=0x19
+#byte RCREG=0x1A
+#byte PIR1=0x0c
+#bit TXIF=PIR1.4
+#bit RCIF=PIR1.5
+char a;
+void envoie()
+{while(TXIF==0)
+TXREG=a;}
+void reception()
+{while(RCIF==0)
+{a=RCREG;}}
+void main()
+{TXSTA=0xA4;
+RCSTA=0x90;
+SPBRG=23;
+while(true)
+{
+envoie();
+reception();
+}}
+
+
+
+
+
+------------------------------------------------------------------------------pwm
+#include "16f877a.h"
+#byte CCP1CON=0x17
+#byte PR2=0x92
+#byte T2con=0x12
+#byte CCP1RL=0x15
+#byte portc=0x07
+#byte trisc=0x87
+#byte TMR2=0x11
+void main()
+{PR2=255;
+CCP1RL=0b11000000;
+CCP1CON=0b00001100;
+output_low(pin_c2);
+T2con=0x05;
+}
+
+
+
+-------------------------------------------------------------------------------------------convertion 
+#include "16F877A.h"
+#byte PORTA=0x05
+#byte PORTB=0x06
+#byte PORTC=0x07
+#byte PORTD=0x08
+#byte TRISA=0x85
+#byte TRISB=0x86
+#byte TRISC=0x87
+#byte TRISD=0x88
+#byte ADCON0=0x1F
+#byte ADCON1=0x9F
+#byte ADRESH=0x1E
+#byte ADRESL=0x9E
+#bit RS=PORTC.0
+#bit RW=PORTC.2
+#bit E=PORTC.1
+#use delay(clock=1MHZ)
+#int_timer0 -----------------------------------------
+char msg[]="Temp=" ;
+float valeurf;
+void ADC()-----------------------------------------------------------
+{int Valeur;
+ADCON0=0x45;
+ADCON1=0x80;
+valeur=ADRESL+(ADRESH);
+valeurf=500.0*valeur/1023;-- ----------------------------------
+}
+void envoie_com (int com) {
+  
+  RS=0;
+  RW=0;
+  PORTB=com;
+  E=1;
+  delay_ms(2);
+  E=0;
+ }
+void envoie_car (int car){
+
+  RW=0;
+  RS=1;
+   E=1;
+   PORTB=car;
+   delay_ms(2);
+    E=0;
+  }
+void main ()
+{
+TRISB=0x00;
+TRISC=0xc0;
+TRISD=0x07;
+setup_0(RTCC_div_4|RTCC_INTERNAL); -------------------
+enable_interrupts(INT_TIMER0);--------------------------
+enable_interrupts(Global);----------------------------------------------------
+
+while(1)
+{int i;
+ADC();
+for (i=0;i<23;i++){
+  envoie_car(msg[i]);
+  delay_ms(100);}
+sprintf(valeurf);
+}
+}
+  
